@@ -1,37 +1,28 @@
-//task 2
+'use strict';
+// Собираем все <template> в массив и кладём в его переменную templatesArray
 const main = document.querySelector(`main.central`);
-const tamplatesArray = Array.prototype.slice.call(
-  document.querySelectorAll(`body template`)
+const templatesArray = Array.prototype.slice.call(
+    document.querySelectorAll(`body template`)
 );
-//task 3
-let currentScreen = 0;
-const showScreen = (incriment = 0) => {
-  if (currentScreen < 0) {
-    currentScreen = 0;
-
+let currentScreen = 0; // Переменная-счетчик в которой хранится номер экрана, долго думал как можно обойтись без неё, но так и ничего не придумал
+// Декларируем фунцию которая будет показывать экран в зависимости от пререданого в нее целого числового аргумента
+const showScreen = (screenNumber = 0) => {
+  if (screenNumber < 0 || screenNumber >= templatesArray.length) {
     return;
   }
-
-  main.innerHTML = tamplatesArray[currentScreen].innerHTML;
+  // Удаляем всё содержимое внутри тега <main>
+  while (main.firstChild) {
+    main.firstChild.remove();
+  }
+  const screen = templatesArray[screenNumber].content.cloneNode(true);// Создаем копию внутринностей необходимого темплейта
+  main.appendChild(screen);// Записываем внутринности необходимого темплейта во внутрь елемента main
 };
 
-showScreen();
-// task 4
-document.addEventListener(`keydown`, event => {
-  switch (event.code) {
-    case `ArrowRight`:
-      currentScreen++;
-      break;
-    case `ArrowLeft`:
-      currentScreen--;
-  }
-  showScreen();
-});
+showScreen(currentScreen);// Вызываем функцию для первого экрана
 
-// task 5
 const arrowRight = `->`;
 const arrowLeft = `<-`;
-
+// Добавляем кнопки для переключения экрана в интерфейсе
 const arrowWrapper = document.createElement(`div`);
 arrowWrapper.className = `arrows__wrap`;
 arrowWrapper.innerHTML = `  <style>
@@ -50,13 +41,19 @@ arrowWrapper.innerHTML = `  <style>
     <button class="arrows__btn">${arrowLeft}</button>
     <button class="arrows__btn">${arrowRight}</button>`;
 document.body.appendChild(arrowWrapper);
-document.addEventListener(`click`, event => {
-  switch (event.target.innerText) {
-    case arrowRight:
-      currentScreen++;
-      break;
-    case arrowLeft:
-      currentScreen--;
+// Декларируем функцию которая будет "колбэком" и используем событие в качестве аргумента чтобы переключать экраны в зависимости от полученого события
+const switchScreen = (event) => {
+  if (event.code === `ArrowRight` || event.target.innerText === arrowRight) {
+    showScreen(++currentScreen);
   }
-  showScreen();
+  if (event.code === `ArrowLeft` || event.target.innerText === arrowLeft) {
+    showScreen(--currentScreen);
+  }
+};
+// На документ вешаем слушатели события "Клик" и "Нажатие клавиши" и добавляем в "колбэк" функцию которая будет переключать экраны
+document.addEventListener(`keydown`, (event) => {
+  switchScreen(event);
+});
+document.addEventListener(`click`, (event) => {
+  switchScreen(event);
 });
