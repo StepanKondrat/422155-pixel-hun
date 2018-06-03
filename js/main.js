@@ -7,13 +7,8 @@ const templatesArray = Array.prototype.slice.call(
 let currentScreen = 0; // Переменная-счетчик в которой хранится номер экрана, долго думал как можно обойтись без неё, но так и ничего не придумал
 // Декларируем фунцию которая будет показывать экран в зависимости от пререданого в нее целого числового аргумента
 const showScreen = (screenNumber = 0) => {
-  if (screenNumber < 0 || screenNumber >= templatesArray.length) {
-    return;
-  }
   // Удаляем всё содержимое внутри тега <main>
-  while (main.firstChild) {
-    main.firstChild.remove();
-  }
+  main.innerHTML = ``;
   const screen = templatesArray[screenNumber].content.cloneNode(true);// Создаем копию внутринностей необходимого темплейта
   main.appendChild(screen);// Записываем внутринности необходимого темплейта во внутрь елемента main
 };
@@ -44,9 +39,15 @@ document.body.appendChild(arrowWrapper);
 // Декларируем функцию которая будет "колбэком" и используем событие в качестве аргумента чтобы переключать экраны в зависимости от полученого события
 const switchScreen = (event) => {
   if (event.code === `ArrowRight` || event.target.innerText === arrowRight) {
+    if (currentScreen >= templatesArray.length - 1) {
+      return;
+    }
     showScreen(++currentScreen);
   }
   if (event.code === `ArrowLeft` || event.target.innerText === arrowLeft) {
+    if (currentScreen <= 0) {
+      return;
+    }
     showScreen(--currentScreen);
   }
 };
