@@ -1,12 +1,14 @@
 // Импорт экрана в этот файл прекрасно работает, но появляется "Кольцевая зависимость модулей", убил много времени, но так и не разобрался как этого избежать
-import screenRules from '../screens/rules.js';
-import {render} from './utils.js';
+import screenGreeting from '../screens/greeting.js';
+import {render, clearInputs} from './utils.js';
+
 
 const getBack = (selector, currentScreen) => {
   const button = currentScreen.querySelector(selector);
-  button.addEventListener(`click`, () => {
 
-    render(screenRules);
+  button.addEventListener(`click`, () => {
+    clearInputs(currentScreen);
+    render(screenGreeting);
 
   });
 

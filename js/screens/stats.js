@@ -1,30 +1,20 @@
-import {createScreen} from '../logic/utils.js';
+import headerTemplate from '../page-parts/header';
 import getBack from '../logic/get-back-to-start-btn.js';
-const screenGameStats = createScreen(`<header class="header">
-<div class="header__back">
-  <button class="back">
-    <img src="img/arrow_left.svg" width="45" height="45" alt="Back">
-    <img src="img/logo_small.svg" width="101" height="44">
-  </button>
-</div>
-</header>
+import gameState from '../data/main-data';
+import gameAnswers from '../page-parts/answers-list';
+import footer from '../page-parts/footer';
+// import {main} from '../logic/units';
+const screenGameStats = () => {
+  const markup = `
+  ${headerTemplate.empty}
 <div class="result">
-<h1>Победа!</h1>
+<h1>${gameState.status}</h1>
 <table class="result__table">
   <tr>
     <td class="result__number">1.</td>
     <td colspan="2">
       <ul class="stats">
-        <li class="stats__result stats__result--wrong"></li>
-        <li class="stats__result stats__result--slow"></li>
-        <li class="stats__result stats__result--fast"></li>
-        <li class="stats__result stats__result--correct"></li>
-        <li class="stats__result stats__result--wrong"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--slow"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--fast"></li>
-        <li class="stats__result stats__result--unknown"></li>
+        ${gameAnswers(gameState.answers)}
       </ul>
     </td>
     <td class="result__points">×&nbsp;100</td>
@@ -108,16 +98,20 @@ const screenGameStats = createScreen(`<header class="header">
   </tr>
 </table>
 </div>
-<footer class="footer">
-<a href="https://htmlacademy.ru" class="social-link social-link--academy">HTML Academy</a>
-<span class="footer__made-in">Сделано в <a href="https://htmlacademy.ru" class="footer__link">HTML Academy</a> &copy; 2016</span>
-<div class="footer__social-links">
-  <a href="https://twitter.com/htmlacademy_ru" class="social-link  social-link--tw">Твиттер</a>
-  <a href="https://www.instagram.com/htmlacademy/" class="social-link  social-link--ins">Инстаграм</a>
-  <a href="https://www.facebook.com/htmlacademy" class="social-link  social-link--fb">Фэйсбук</a>
-  <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
-</div>
-</footer>`);
-getBack(`.back`, screenGameStats);
+${footer}`;
+  return markup;
+};
+const main = document.querySelector(`main.central`);
 
-export default screenGameStats;
+const renderStats = () => {
+  main.innerHTML = ``;
+  const stats = document.createElement(`div`);
+  stats.innerHTML = screenGameStats();
+  main.appendChild(stats);
+  getBack(`.back`, main);
+
+
+};
+
+
+export default renderStats;
