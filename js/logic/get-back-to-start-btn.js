@@ -1,14 +1,12 @@
-// Импорт экрана в этот файл прекрасно работает, но появляется "Кольцевая зависимость модулей", убил много времени, но так и не разобрался как этого избежать
-import screenGreeting from '../screens/greeting.js';
-import {render, clearInputs} from './utils.js';
 
+import screenGreeting from '../views/greeting-view';
+import {render, clearInputs} from './utils';
 
-const getBack = (selector, currentScreen) => {
-  const button = currentScreen.querySelector(selector);
-
+const getBack = (currentScreen) => {
+  const button = currentScreen.querySelector(`.back`);
   button.addEventListener(`click`, () => {
     clearInputs(currentScreen);
-    render(screenGreeting);
+    render(screenGreeting.element);
 
   });
 

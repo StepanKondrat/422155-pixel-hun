@@ -1,5 +1,5 @@
 import {gameSets} from '../data/game-sets';
-import gameScreens from '../screens/game-screens';
+import gameScreens from '../page-parts/game-screens';
 
 
 const specifiScreen = (screenNumber) => {

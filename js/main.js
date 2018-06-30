@@ -1,8 +1,4 @@
 import {render} from './logic/utils.js';
-import screenIntro from './screens/intro.js';
+import screenIntro from './views/intro-view';
 
-
-render(screenIntro);
-// const startScreen = screenIntro;
-
-// export default startScreen;
+render(screenIntro.element);

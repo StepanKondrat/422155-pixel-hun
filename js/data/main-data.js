@@ -3,7 +3,7 @@ const MAX_LIVES = 3;
 const START_SCREEN = 0;
 
 const gameState = {
-  status: `FAIL`,
+  status: `Победа!`,
   screen: 0,
   lives: MAX_LIVES,
   time: TIME_LIMIT,
@@ -28,5 +28,25 @@ const gameState = {
   }
 
 };
+
+
+// class GameState {
+//   constructor () {
+//     this._state = {};
+//   }
+//   get state () {
+//     return this._state;
+//   }
+//   set model(state) {
+//     const newState = Object.assign(this._state, state);
+//     this._state = newState;
+//     return newState;
+
+
+//   }
+
+// }
+
+// const gameState = new GameState();
 
 export default gameState;
